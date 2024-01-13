@@ -1,6 +1,23 @@
+import {useState} from 'react';
 import {StyleSheet, View, TextInput, Button} from 'react-native';
 
-const CourseInput = (): JSX.Element => {
+type GoalInputProps = {
+  onSetCourse: Function;
+};
+
+const CourseInput = ({onSetCourse}: GoalInputProps): JSX.Element => {
+  const [courseText, setCourseText] = useState('');
+
+  const addCourseHandler = () => {
+    if (courseText) {
+      onSetCourse((prevCourses: Array<{id: string; text: string}>) => [
+        ...prevCourses,
+        {id: Math.random().toString(), text: courseText},
+      ]);
+      setCourseText('');
+    }
+  };
+
   return (
     <View style={styles.inputContainer}>
       <TextInput style={styles.input} placeholder="Your Course Goal" />
