@@ -1,11 +1,17 @@
 import {useState} from 'react';
-import {StyleSheet, View, TextInput, Button} from 'react-native';
+import {StyleSheet, View, TextInput, Button, Modal, Image} from 'react-native';
 
 type GoalInputProps = {
   onSetCourse: Function;
+  modalVisible: boolean;
+  onSetModal: Function;
 };
 
-const CourseInput = ({onSetCourse}: GoalInputProps): JSX.Element => {
+const CourseInput = ({
+  onSetCourse,
+  modalVisible,
+  onSetModal,
+}: GoalInputProps): JSX.Element => {
   const [courseText, setCourseText] = useState('');
 
   const addCourseHandler = () => {
@@ -15,17 +21,34 @@ const CourseInput = ({onSetCourse}: GoalInputProps): JSX.Element => {
         {id: Math.random().toString(), text: courseText},
       ]);
       setCourseText('');
+      onSetModal(false);
     }
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput style={styles.input} placeholder="Your Course Goal" />
-      <View style={styles.btnContainer}>
-        <Button title="Add Course" color="#5e0acc" />
-        <Button title="Cancel" color="#f31282" />
+    <Modal visible={modalVisible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <Image style={styles.img} source={require('../img/goal.png')} />
+        <TextInput
+          style={styles.input}
+          placeholder="Your Course Goal"
+          onChangeText={setCourseText}
+          value={courseText}
+        />
+        <View style={styles.btnContainer}>
+          <Button
+            title="Add Course"
+            onPress={addCourseHandler}
+            color="#5e0acc"
+          />
+          <Button
+            title="Cancel"
+            onPress={() => onSetModal(false)}
+            color="#f31282"
+          />
+        </View>
       </View>
-    </View>
+    </Modal>
   );
 };
 
