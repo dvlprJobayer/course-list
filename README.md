@@ -59,4 +59,4 @@ This is one way to run your app — you can also run it directly from within And
 ## The technology used in the project is mentioned below:
 - React Native
 - React Native cli
-
+- TypeScript
